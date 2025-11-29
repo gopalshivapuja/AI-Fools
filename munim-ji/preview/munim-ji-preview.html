@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Munim Ji - Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+            gap: 40px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 30px;
+            background: #000;
+            border-radius: 0 0 20px 20px;
+            z-index: 100;
+        }
+
+        .theme-label {
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* DARK THEME (ChatGPT Pulse Style) */
+        /* ═══════════════════════════════════════════════════════════════ */
+        .dark-theme {
+            background: #0D0D0D;
+            color: #FFFFFF;
+            position: relative;
+        }
+
+        /* Pulse Header */
+        .dark-theme .pulse-header {
+            padding: 48px 20px 16px;
+        }
+
+        .dark-theme .header-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dark-theme .app-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #FF9933;
+        }
+
+        .dark-theme .settings-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #8E8E93;
+        }
+
+        .dark-theme .settings-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .dark-theme .time-context {
+            margin-top: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #8E8E93;
+        }
+
+        .dark-theme .header-date {
+            color: rgba(142, 142, 147, 0.7);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* Greeting Card */
+        .dark-theme .greeting {
+            padding: 24px 20px;
+        }
+
+        .dark-theme .greeting-text {
+            font-size: 36px;
+            font-weight: 700;
+            color: #FFFFFF;
+            line-height: 1.2;
+        }
+
+        .dark-theme .persona-text {
+            font-size: 16px;
+            color: #E5E5E5;
+            margin-top: 8px;
+        }
+
+        /* Section Title */
+        .dark-theme .section-title {
+            color: #8E8E93;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 16px 20px;
+        }
+
+        /* Swipeable Card */
+        .dark-theme .card {
+            background: #1A1A1A;
+            margin: 0 20px;
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: grab;
+            user-select: none;
+        }
+
+        .dark-theme .card:active {
+            cursor: grabbing;
+        }
+
+        .dark-theme .card-image-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #2D2D2D 0%, #1A1A1A 100%);
+            overflow: hidden;
+        }
+
+        .dark-theme .card-image-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+        }
+
+        /* Card image placeholder pattern */
+        .dark-theme .card-image-container::before {
+            content: '🕉️';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 64px;
+            opacity: 0.3;
+        }
+
+        .dark-theme .source-chip {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #FFFFFF;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 10;
+        }
+
+        .dark-theme .card-content {
+            padding: 24px;
+        }
+
+        .dark-theme .card-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dark-theme .card-icon {
+            font-size: 24px;
+        }
+
+        .dark-theme .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .dark-theme .card-description {
+            font-size: 15px;
+            color: #E5E5E5;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        /* Swipe overlay */
+        .dark-theme .swipe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 24px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .dark-theme .swipe-overlay.like {
+            background: rgba(52, 199, 89, 0.2);
+        }
+
+        .dark-theme .swipe-overlay.dislike {
+            background: rgba(255, 59, 48, 0.2);
+        }
+
+        .dark-theme .swipe-emoji {
+            font-size: 64px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.2s ease;
+        }
+
+        /* Indicators */
+        .dark-theme .indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px;
+        }
+
+        .dark-theme .indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transition: all 0.2s;
+        }
+
+        .dark-theme .indicator.active {
+            width: 8px;
+            height: 8px;
+            background: #FF9933;
+        }
+
+        /* Chat Input Bar */
+        .dark-theme .chat-input-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            background: linear-gradient(to top, #0D0D0D 80%, transparent);
+        }
+
+        .dark-theme .input-container {
+            display: flex;
+            align-items: center;
+            background: #2D2D2D;
+            border-radius: 32px;
+            padding: 8px 8px 8px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .dark-theme .input-field {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #FFFFFF;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .dark-theme .input-field::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .dark-theme .mic-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* LIGHT THEME */
+        /* ═══════════════════════════════════════════════════════════════ */
+        .light-theme {
+            background: #FFFFFF;
+            color: #1A1A1A;
+            position: relative;
+        }
+
+        .light-theme .pulse-header {
+            padding: 48px 20px 16px;
+        }
+
+        .light-theme .header-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .light-theme .app-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #FF9933;
+        }
+
+        .light-theme .settings-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #666666;
+        }
+
+        .light-theme .settings-btn:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+        .light-theme .time-context {
+            margin-top: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666666;
+        }
+
+        .light-theme .header-date {
+            color: rgba(102, 102, 102, 0.7);
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .light-theme .greeting {
+            padding: 24px 20px;
+        }
+
+        .light-theme .greeting-text {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1A1A1A;
+            line-height: 1.2;
+        }
+
+        .light-theme .persona-text {
+            font-size: 16px;
+            color: #666666;
+            margin-top: 8px;
+        }
+
+        .light-theme .section-title {
+            color: #666666;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 16px 20px;
+        }
+
+        .light-theme .card {
+            background: #FFFFFF;
+            margin: 0 20px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #E5E5EA;
+            cursor: grab;
+            user-select: none;
+        }
+
+        .light-theme .card:active {
+            cursor: grabbing;
+        }
+
+        .light-theme .card-image-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #F5F5F5 0%, #FAFAFA 100%);
+            overflow: hidden;
+        }
+
+        .light-theme .card-image-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
+        }
+
+        .light-theme .card-image-container::before {
+            content: '🕉️';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 64px;
+            opacity: 0.2;
+        }
+
+        .light-theme .source-chip {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #FFFFFF;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 10;
+        }
+
+        .light-theme .card-content {
+            padding: 24px;
+        }
+
+        .light-theme .card-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .light-theme .card-icon {
+            font-size: 24px;
+        }
+
+        .light-theme .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1A1A1A;
+        }
+
+        .light-theme .card-description {
+            font-size: 15px;
+            color: #666666;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        .light-theme .swipe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 24px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .light-theme .swipe-overlay.like {
+            background: rgba(52, 199, 89, 0.2);
+        }
+
+        .light-theme .swipe-overlay.dislike {
+            background: rgba(255, 59, 48, 0.2);
+        }
+
+        .light-theme .swipe-emoji {
+            font-size: 64px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.2s ease;
+        }
+
+        .light-theme .indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px;
+        }
+
+        .light-theme .indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #E5E5EA;
+            transition: all 0.2s;
+        }
+
+        .light-theme .indicator.active {
+            width: 8px;
+            height: 8px;
+            background: #FF9933;
+        }
+
+        .light-theme .chat-input-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            background: linear-gradient(to top, #FFFFFF 80%, transparent);
+        }
+
+        .light-theme .input-container {
+            display: flex;
+            align-items: center;
+            background: #F5F5F5;
+            border-radius: 32px;
+            padding: 8px 8px 8px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .light-theme .input-field {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: #1A1A1A;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .light-theme .input-field::placeholder {
+            color: rgba(26,26,26,0.4);
+        }
+
+        .light-theme .mic-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.05);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* SWIPE ANIMATION */
+        /* ═══════════════════════════════════════════════════════════════ */
+        .card.swiping-right {
+            animation: swipeRight 0.4s ease-out forwards;
+        }
+
+        .card.swiping-left {
+            animation: swipeLeft 0.4s ease-out forwards;
+        }
+
+        @keyframes swipeRight {
+            0% { transform: translateX(0) rotate(0); opacity: 1; }
+            100% { transform: translateX(400px) rotate(15deg); opacity: 0; }
+        }
+
+        @keyframes swipeLeft {
+            0% { transform: translateX(0) rotate(0); opacity: 1; }
+            100% { transform: translateX(-400px) rotate(-15deg); opacity: 0; }
+        }
+
+        /* Title section */
+        .page-title {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .page-title h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        .phones-container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .phone-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Instructions */
+        .instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 14px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .instructions span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Card wrapper for swipe positioning */
+        .card-wrapper {
+            position: relative;
+        }
+
+        /* Settings Screen Styles */
+        .settings-screen {
+            display: none;
+        }
+
+        .settings-screen.active {
+            display: block;
+        }
+
+        .home-screen.hidden {
+            display: none;
+        }
+
+        .settings-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 48px 20px 16px;
+            border-bottom: 1px solid;
+        }
+
+        .dark-theme .settings-header {
+            border-color: #3D3D3D;
+        }
+
+        .light-theme .settings-header {
+            border-color: #E5E5EA;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .dark-theme .back-btn {
+            color: #FFFFFF;
+        }
+
+        .light-theme .back-btn {
+            color: #1A1A1A;
+        }
+
+        .settings-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .settings-section-header {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 24px 20px 12px;
+        }
+
+        .dark-theme .settings-section-header {
+            color: #8E8E93;
+        }
+
+        .light-theme .settings-section-header {
+            color: #666666;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            cursor: pointer;
+        }
+
+        .dark-theme .settings-item:hover {
+            background: #1A1A1A;
+        }
+
+        .light-theme .settings-item:hover {
+            background: #FAFAFA;
+        }
+
+        .settings-item-emoji {
+            font-size: 24px;
+            width: 36px;
+        }
+
+        .settings-item-title {
+            flex: 1;
+            font-size: 17px;
+        }
+
+        .settings-item-arrow {
+            font-size: 20px;
+            opacity: 0.5;
+        }
+
+        .settings-item-divider {
+            height: 1px;
+            margin-left: 56px;
+        }
+
+        .dark-theme .settings-item-divider {
+            background: #3D3D3D;
+        }
+
+        .light-theme .settings-item-divider {
+            background: #E5E5EA;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle-row {
+            display: flex;
+            align-items: center;
+            padding: 16px 20px;
+            cursor: pointer;
+        }
+
+        .dark-theme .theme-toggle-row:hover {
+            background: #1A1A1A;
+        }
+
+        .light-theme .theme-toggle-row:hover {
+            background: #FAFAFA;
+        }
+
+        .toggle-content {
+            flex: 1;
+            margin-left: 16px;
+        }
+
+        .toggle-title {
+            font-size: 17px;
+            font-weight: 500;
+        }
+
+        .toggle-subtitle {
+            font-size: 13px;
+            margin-top: 2px;
+        }
+
+        .dark-theme .toggle-subtitle {
+            color: #8E8E93;
+        }
+
+        .light-theme .toggle-subtitle {
+            color: #666666;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            width: 51px;
+            height: 31px;
+            background: #8E8E93;
+            border-radius: 31px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: #FF9933;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 27px;
+            height: 27px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(20px);
+        }
+
+        .settings-footer {
+            text-align: center;
+            padding: 32px 20px;
+            font-size: 14px;
+        }
+
+        .dark-theme .settings-footer {
+            color: #8E8E93;
+        }
+
+        .light-theme .settings-footer {
+            color: #666666;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <div class="page-title">
+            <h1>🙏 Munim Ji</h1>
+            <p>Your Digital Pulse - Personalized recommendations for Bharat</p>
+        </div>
+
+        <div class="phones-container">
+            <!-- Dark Theme Phone -->
+            <div class="phone-wrapper">
+                <div class="theme-label">🌙 Dark Theme (Default)</div>
+                <div class="phone-frame">
+                    <div class="dark-theme" style="height: 100%; overflow-y: auto; position: relative;" id="dark-phone">
+                        <!-- Home Screen -->
+                        <div class="home-screen" id="dark-home">
+                            <!-- Pulse Header -->
+                            <div class="pulse-header">
+                                <div class="header-top-row">
+                                    <span class="app-name">Munim Ji</span>
+                                    <button class="settings-btn" onclick="showSettings('dark')">⚙️</button>
+                                </div>
+                                <div class="time-context">☀️ Your Morning Pulse</div>
+                                <div class="header-date" id="dark-date">Saturday, Nov 29</div>
+                            </div>
+
+                            <!-- Greeting -->
+                            <div class="greeting">
+                                <div class="greeting-text">🙏 Shubh Prabhat!</div>
+                                <div class="persona-text">You're vibing as a Morning Devotee today</div>
+                            </div>
+
+                            <!-- Section -->
+                            <div class="section-title">For you right now</div>
+
+                            <!-- Swipeable Card -->
+                            <div class="card-wrapper">
+                                <div class="card" id="dark-card" 
+                                     onmousedown="startSwipe(event, 'dark')" 
+                                     ontouchstart="startSwipe(event, 'dark')"
+                                     onclick="handleCardClick(event)">
+                                    <div class="card-image-container">
+                                        <span class="source-chip">YouTube</span>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-title-row">
+                                            <span class="card-icon">🕉️</span>
+                                            <span class="card-title">Kashi Vishwanath Aarti</span>
+                                        </div>
+                                        <div class="card-description">Live morning aarti from Varanasi</div>
+                                    </div>
+                                </div>
+                                <div class="swipe-overlay like" id="dark-like-overlay">
+                                    <span class="swipe-emoji">👍</span>
+                                </div>
+                                <div class="swipe-overlay dislike" id="dark-dislike-overlay">
+                                    <span class="swipe-emoji">👎</span>
+                                </div>
+                            </div>
+
+                            <!-- Indicators -->
+                            <div class="indicators">
+                                <div class="indicator active"></div>
+                                <div class="indicator"></div>
+                                <div class="indicator"></div>
+                            </div>
+
+                            <!-- Chat Input Bar -->
+                            <div class="chat-input-bar">
+                                <div class="input-container">
+                                    <input type="text" class="input-field" placeholder="Ask Munim Ji...">
+                                    <button class="mic-btn">🎤</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Settings Screen -->
+                        <div class="settings-screen" id="dark-settings">
+                            <div class="settings-header">
+                                <button class="back-btn" onclick="hideSettings('dark')">←</button>
+                                <span style="font-size: 24px;">⚙️</span>
+                                <span class="settings-title">Customize Your Pulse</span>
+                            </div>
+
+                            <div class="settings-section-header">Appearance</div>
+                            <div class="theme-toggle-row" onclick="toggleDarkMode('dark')">
+                                <span style="font-size: 24px;">🌙</span>
+                                <div class="toggle-content">
+                                    <div class="toggle-title">Dark Mode</div>
+                                    <div class="toggle-subtitle">ChatGPT Pulse style</div>
+                                </div>
+                                <div class="toggle-switch active" id="dark-toggle"></div>
+                            </div>
+                            <div class="settings-item-divider"></div>
+
+                            <div class="settings-section-header">Your Preferences</div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">📝</span>
+                                <span class="settings-item-title">Interests & Topics</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">🌐</span>
+                                <span class="settings-item-title">Language</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">🕐</span>
+                                <span class="settings-item-title">Best Time for Updates</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+
+                            <div class="settings-section-header">Feedback</div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">💬</span>
+                                <span class="settings-item-title">Rate Recommendations</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">📊</span>
+                                <span class="settings-item-title">What We've Learned</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+
+                            <div class="settings-section-header">About</div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">ℹ️</span>
+                                <span class="settings-item-title">How Munim Ji Works</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">🔒</span>
+                                <span class="settings-item-title">Privacy</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">📱</span>
+                                <span class="settings-item-title">App Version</span>
+                                <span class="settings-item-arrow" style="opacity: 1; font-size: 14px;">v1.0.0</span>
+                            </div>
+
+                            <div class="settings-footer">🇮🇳 Made with ❤️ for Bharat</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Light Theme Phone -->
+            <div class="phone-wrapper">
+                <div class="theme-label">☀️ Light Theme</div>
+                <div class="phone-frame">
+                    <div class="light-theme" style="height: 100%; overflow-y: auto; position: relative;" id="light-phone">
+                        <!-- Home Screen -->
+                        <div class="home-screen" id="light-home">
+                            <!-- Pulse Header -->
+                            <div class="pulse-header">
+                                <div class="header-top-row">
+                                    <span class="app-name">Munim Ji</span>
+                                    <button class="settings-btn" onclick="showSettings('light')">⚙️</button>
+                                </div>
+                                <div class="time-context">☀️ Your Morning Pulse</div>
+                                <div class="header-date" id="light-date">Saturday, Nov 29</div>
+                            </div>
+
+                            <!-- Greeting -->
+                            <div class="greeting">
+                                <div class="greeting-text">🙏 Shubh Prabhat!</div>
+                                <div class="persona-text">You're vibing as a Morning Devotee today</div>
+                            </div>
+
+                            <!-- Section -->
+                            <div class="section-title">For you right now</div>
+
+                            <!-- Swipeable Card -->
+                            <div class="card-wrapper">
+                                <div class="card" id="light-card"
+                                     onmousedown="startSwipe(event, 'light')" 
+                                     ontouchstart="startSwipe(event, 'light')"
+                                     onclick="handleCardClick(event)">
+                                    <div class="card-image-container">
+                                        <span class="source-chip">YouTube</span>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-title-row">
+                                            <span class="card-icon">🕉️</span>
+                                            <span class="card-title">Kashi Vishwanath Aarti</span>
+                                        </div>
+                                        <div class="card-description">Live morning aarti from Varanasi</div>
+                                    </div>
+                                </div>
+                                <div class="swipe-overlay like" id="light-like-overlay">
+                                    <span class="swipe-emoji">👍</span>
+                                </div>
+                                <div class="swipe-overlay dislike" id="light-dislike-overlay">
+                                    <span class="swipe-emoji">👎</span>
+                                </div>
+                            </div>
+
+                            <!-- Indicators -->
+                            <div class="indicators">
+                                <div class="indicator active"></div>
+                                <div class="indicator"></div>
+                                <div class="indicator"></div>
+                            </div>
+
+                            <!-- Chat Input Bar -->
+                            <div class="chat-input-bar">
+                                <div class="input-container">
+                                    <input type="text" class="input-field" placeholder="Ask Munim Ji...">
+                                    <button class="mic-btn">🎤</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Settings Screen -->
+                        <div class="settings-screen" id="light-settings">
+                            <div class="settings-header">
+                                <button class="back-btn" onclick="hideSettings('light')">←</button>
+                                <span style="font-size: 24px;">⚙️</span>
+                                <span class="settings-title">Customize Your Pulse</span>
+                            </div>
+
+                            <div class="settings-section-header">Appearance</div>
+                            <div class="theme-toggle-row" onclick="toggleDarkMode('light')">
+                                <span style="font-size: 24px;">☀️</span>
+                                <div class="toggle-content">
+                                    <div class="toggle-title">Dark Mode</div>
+                                    <div class="toggle-subtitle">Light & clean</div>
+                                </div>
+                                <div class="toggle-switch" id="light-toggle"></div>
+                            </div>
+                            <div class="settings-item-divider"></div>
+
+                            <div class="settings-section-header">Your Preferences</div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">📝</span>
+                                <span class="settings-item-title">Interests & Topics</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">🌐</span>
+                                <span class="settings-item-title">Language</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">🕐</span>
+                                <span class="settings-item-title">Best Time for Updates</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+
+                            <div class="settings-section-header">Feedback</div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">💬</span>
+                                <span class="settings-item-title">Rate Recommendations</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">📊</span>
+                                <span class="settings-item-title">What We've Learned</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+
+                            <div class="settings-section-header">About</div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">ℹ️</span>
+                                <span class="settings-item-title">How Munim Ji Works</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">🔒</span>
+                                <span class="settings-item-title">Privacy</span>
+                                <span class="settings-item-arrow">›</span>
+                            </div>
+                            <div class="settings-item-divider"></div>
+                            <div class="settings-item">
+                                <span class="settings-item-emoji">📱</span>
+                                <span class="settings-item-title">App Version</span>
+                                <span class="settings-item-arrow" style="opacity: 1; font-size: 14px;">v1.0.0</span>
+                            </div>
+
+                            <div class="settings-footer">🇮🇳 Made with ❤️ for Bharat</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <span>👆 Drag card left/right to swipe</span>
+        <span>🖱️ Click card to simulate deep link</span>
+        <span>⚙️ Tap settings icon to see settings</span>
+    </div>
+
+    <script>
+        // Update date on load
+        const today = new Date();
+        const options = { weekday: 'long', month: 'short', day: 'numeric' };
+        const dateStr = today.toLocaleDateString('en-US', options);
+        document.getElementById('dark-date').textContent = dateStr;
+        document.getElementById('light-date').textContent = dateStr;
+
+        // Swipe handling
+        let startX = 0;
+        let currentTheme = '';
+        let isDragging = false;
+
+        function startSwipe(e, theme) {
+            e.preventDefault();
+            startX = e.clientX || e.touches[0].clientX;
+            currentTheme = theme;
+            isDragging = true;
+            
+            document.addEventListener('mousemove', onSwipe);
+            document.addEventListener('mouseup', endSwipe);
+            document.addEventListener('touchmove', onSwipe);
+            document.addEventListener('touchend', endSwipe);
+        }
+
+        function onSwipe(e) {
+            if (!isDragging) return;
+            
+            const currentX = e.clientX || (e.touches && e.touches[0].clientX);
+            if (!currentX) return;
+            
+            const diff = currentX - startX;
+            const card = document.getElementById(currentTheme + '-card');
+            const likeOverlay = document.getElementById(currentTheme + '-like-overlay');
+            const dislikeOverlay = document.getElementById(currentTheme + '-dislike-overlay');
+            
+            card.style.transform = `translateX(${diff}px) rotate(${diff * 0.03}deg)`;
+            
+            // Show overlays based on swipe direction
+            const progress = Math.min(Math.abs(diff) / 200, 1);
+            
+            if (diff > 30) {
+                likeOverlay.style.opacity = progress;
+                likeOverlay.querySelector('.swipe-emoji').style.opacity = progress;
+                likeOverlay.querySelector('.swipe-emoji').style.transform = `scale(${0.5 + progress * 0.5})`;
+                dislikeOverlay.style.opacity = 0;
+            } else if (diff < -30) {
+                dislikeOverlay.style.opacity = progress;
+                dislikeOverlay.querySelector('.swipe-emoji').style.opacity = progress;
+                dislikeOverlay.querySelector('.swipe-emoji').style.transform = `scale(${0.5 + progress * 0.5})`;
+                likeOverlay.style.opacity = 0;
+            } else {
+                likeOverlay.style.opacity = 0;
+                dislikeOverlay.style.opacity = 0;
+            }
+        }
+
+        function endSwipe(e) {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            document.removeEventListener('mousemove', onSwipe);
+            document.removeEventListener('mouseup', endSwipe);
+            document.removeEventListener('touchmove', onSwipe);
+            document.removeEventListener('touchend', endSwipe);
+            
+            const card = document.getElementById(currentTheme + '-card');
+            const likeOverlay = document.getElementById(currentTheme + '-like-overlay');
+            const dislikeOverlay = document.getElementById(currentTheme + '-dislike-overlay');
+            
+            const transform = card.style.transform;
+            const match = transform.match(/translateX\(([^)]+)px\)/);
+            const diff = match ? parseFloat(match[1]) : 0;
+            
+            if (diff > 100) {
+                card.classList.add('swiping-right');
+                setTimeout(() => {
+                    alert('👍 Liked! This would save preference to SDK');
+                    resetCard(card, likeOverlay, dislikeOverlay);
+                }, 400);
+            } else if (diff < -100) {
+                card.classList.add('swiping-left');
+                setTimeout(() => {
+                    alert('👎 Disliked! This would update recommendations');
+                    resetCard(card, likeOverlay, dislikeOverlay);
+                }, 400);
+            } else {
+                // Spring back
+                card.style.transition = 'transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                card.style.transform = '';
+                likeOverlay.style.opacity = 0;
+                dislikeOverlay.style.opacity = 0;
+                setTimeout(() => {
+                    card.style.transition = '';
+                }, 300);
+            }
+        }
+
+        function resetCard(card, likeOverlay, dislikeOverlay) {
+            card.classList.remove('swiping-right', 'swiping-left');
+            card.style.transform = '';
+            likeOverlay.style.opacity = 0;
+            dislikeOverlay.style.opacity = 0;
+            likeOverlay.querySelector('.swipe-emoji').style.opacity = 0;
+            dislikeOverlay.querySelector('.swipe-emoji').style.opacity = 0;
+        }
+
+        // Card click handler
+        function handleCardClick(e) {
+            if (isDragging) return;
+            // Only trigger if it was a clean click, not a swipe
+            const card = e.currentTarget;
+            const transform = card.style.transform;
+            const match = transform.match(/translateX\(([^)]+)px\)/);
+            const diff = match ? parseFloat(match[1]) : 0;
+            
+            if (Math.abs(diff) < 10) {
+                alert('🔗 Opening YouTube: Kashi Vishwanath Aarti\n\nIn the real app, this would launch the YouTube app!');
+            }
+        }
+
+        // Settings navigation
+        function showSettings(theme) {
+            document.getElementById(theme + '-home').classList.add('hidden');
+            document.getElementById(theme + '-settings').classList.add('active');
+        }
+
+        function hideSettings(theme) {
+            document.getElementById(theme + '-home').classList.remove('hidden');
+            document.getElementById(theme + '-settings').classList.remove('active');
+        }
+
+        // Theme toggle (just visual feedback in preview)
+        function toggleDarkMode(theme) {
+            const toggle = document.getElementById(theme + '-toggle');
+            toggle.classList.toggle('active');
+            
+            // Update subtitle
+            const subtitle = toggle.parentElement.querySelector('.toggle-subtitle');
+            if (toggle.classList.contains('active')) {
+                subtitle.textContent = 'ChatGPT Pulse style';
+                toggle.previousElementSibling.querySelector('.toggle-title').previousElementSibling?.remove();
+            } else {
+                subtitle.textContent = 'Light & clean';
+            }
+            
+            // Update emoji
+            const emoji = toggle.parentElement.querySelector('span:first-child');
+            emoji.textContent = toggle.classList.contains('active') ? '🌙' : '☀️';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ChatGPT Pulse-inspired dark color palette -->
+    
+    <!-- Dark backgrounds -->
+    <color name="pulse_background">#FF0D0D0D</color>
+    <color name="pulse_surface">#FF1A1A1A</color>
+    <color name="pulse_surface_variant">#FF2D2D2D</color>
+    
+    <!-- Accent -->
+    <color name="pulse_saffron">#FFFF9933</color>
+    
+    <!-- Text (light on dark) -->
+    <color name="pulse_text_primary">#FFFFFFFF</color>
+    <color name="pulse_text_secondary">#FFE5E5E5</color>
+    <color name="pulse_muted">#FF8E8E93</color>
+    
+    <!-- UI elements -->
+    <color name="pulse_divider">#FF3D3D3D</color>
+    
+    <!-- Swipe feedback -->
+    <color name="swipe_like">#FF34C759</color>
+    <color name="swipe_dislike">#FFFF3B30</color>
+    
+    <!-- Legacy (for compatibility) -->
+    <color name="pulse_white">#FFFFFFFF</color>
+    <color name="pulse_off_white">#FF2D2D2D</color>
+    <color name="pulse_text">#FFFFFFFF</color>
+</resources>
+

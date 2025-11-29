@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Munim Ji</string>
+    
+    <!-- Home Screen -->
+    <string name="your_morning_pulse">Your Morning Pulse</string>
+    <string name="your_afternoon_pulse">Your Afternoon Pulse</string>
+    <string name="your_evening_pulse">Your Evening Pulse</string>
+    <string name="your_night_pulse">Your Night Pulse</string>
+    <string name="for_you_right_now">For you right now</string>
+    <string name="customize_your_pulse">Customize your Pulse</string>
+    <string name="all_caught_up">All caught up!</string>
+    <string name="all_caught_up_subtitle">Check back later for more recommendations</string>
+    
+    <!-- Swipe hints -->
+    <string name="swipe_left_dislike">Swipe left to dismiss</string>
+    <string name="swipe_right_like">Swipe right to like</string>
+    <string name="tap_to_open">Tap to open</string>
+    
+    <!-- Settings -->
+    <string name="settings_title">Customize Your Pulse</string>
+    <string name="section_preferences">Your Preferences</string>
+    <string name="section_feedback">Feedback</string>
+    <string name="section_about">About</string>
+    
+    <string name="interests_topics">Interests &amp; Topics</string>
+    <string name="language">Language</string>
+    <string name="best_time_updates">Best Time for Updates</string>
+    <string name="rate_recommendations">Rate Recommendations</string>
+    <string name="what_we_learned">What We\'ve Learned</string>
+    <string name="how_munim_ji_works">How Munim Ji Works</string>
+    <string name="privacy">Privacy</string>
+    
+    <!-- Accessibility -->
+    <string name="back_button">Go back</string>
+    <string name="settings_button">Open settings</string>
+</resources>
+
