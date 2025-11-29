@@ -1,25 +1,40 @@
 import axios from 'axios';
 import { BharatSignals } from '../signals/types';
+import { Platform } from 'react-native';
+import * as Device from 'expo-device';
 
 /**
  * Helper to determine the API URL
  * 
- * In a production app, this would be an environment variable (Config.API_URL).
+ * CHALLENGE: When running on a physical device via Expo Go, 'localhost' refers to the phone itself, not your laptop.
  * 
- * For Local Development:
- * - Android Emulator: 10.0.2.2 points to your host machine's localhost.
- * - iOS Simulator: localhost works fine.
- * - Real Device: You must replace this with your machine's LAN IP (e.g., 192.168.1.5).
+ * SOLUTION: We use localtunnel to expose the backend to the internet.
+ * This works on ANY network - coffee shops, mobile data, anywhere!
+ * 
+ * FOR DEVELOPMENT:
+ * 1. Start the backend: cd backend && source venv/bin/activate && uvicorn main:app --host 0.0.0.0 --port 8000
+ * 2. Start the tunnel: lt --port 8000 --subdomain bharat-engine-hackathon
+ * 3. The tunnel URL below will automatically route to your laptop!
  */
 const getBaseUrl = () => {
-    return 'http://localhost:8000'; 
+    // For Android Emulator, use the magic IP that routes to host machine:
+    if (Device.isDevice === false && Platform.OS === 'android') {
+        return 'http://10.0.2.2:8000';
+    }
+    
+    // For iOS Simulator:
+    if (Device.isDevice === false && Platform.OS === 'ios') {
+        return 'http://localhost:8000';
+    }
+
+    // For Real Devices (Expo Go) - use the public tunnel URL!
+    // This works from ANY network, not just your local WiFi 🌍
+    return 'https://bharat-engine-hackathon.loca.lt'; 
 };
 
 /**
  * Sends the collected signals to the Backend Inference Engine.
- * 
- * @param signals - The raw signals collected from the device (Time, Network, Device Class).
- * @returns The Inference Result (User Segment, Recommended Mode).
+ * ... (Rest of the file remains the same)
  */
 export const sendSignalsToBackend = async (signals: BharatSignals) => {
     const API_URL = `${getBaseUrl()}/v1/init`;
@@ -57,7 +72,7 @@ export const sendSignalsToBackend = async (signals: BharatSignals) => {
         return {
             user_segment: "offline_default",
             recommended_mode: "standard",
-            message: "Backend unreachable, using local default (Fail-Open Active)"
+            message: `Backend unreachable (${API_URL}). Using Fail-Open Default.`
         };
     }
 };
