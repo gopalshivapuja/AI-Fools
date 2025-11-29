@@ -1,6 +1,6 @@
 {
   "name": "@bharat-engine/sdk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Context-Adaptive Engine SDK for the Next Billion Users",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,7 +10,9 @@
   "keywords": [
     "bharat",
     "context",
-    "personalization"
+    "personalization",
+    "signals",
+    "india"
   ],
   "author": "App4Bharat Team",
   "license": "MIT",
@@ -21,18 +23,34 @@
     "typescript": "^5.3.0",
     "@types/react": "~19.1.0",
     "@types/react-native": "~0.73.0",
-    "expo-battery": "~10.0.7",
-    "expo-device": "~8.0.9",
-    "expo-localization": "~17.0.7",
-    "expo-network": "~8.0.7"
+    "expo-application": "*",
+    "expo-battery": "*",
+    "expo-brightness": "*",
+    "expo-cellular": "*",
+    "expo-device": "*",
+    "expo-file-system": "*",
+    "expo-localization": "*",
+    "expo-network": "*",
+    "expo-secure-store": "*"
   },
   "peerDependencies": {
     "react": "*",
     "react-native": "*",
     "expo": "*",
+    "expo-application": "*",
     "expo-battery": "*",
+    "expo-brightness": "*",
+    "expo-cellular": "*",
     "expo-device": "*",
+    "expo-file-system": "*",
     "expo-localization": "*",
-    "expo-network": "*"
+    "expo-network": "*",
+    "expo-secure-store": "*"
+  },
+  "optionalPeerDependencies": {
+    "expo-location": "*",
+    "expo-contacts": "*",
+    "expo-calendar": "*",
+    "expo-sensors": "*"
   }
 }

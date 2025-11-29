@@ -1,43 +1,71 @@
-import { collectSignals } from './signals';
-import { sendSignalsToBackend, EngineResponse, Persona, Suggestion, Journey } from './inference/api';
-import { BharatSignals } from './signals/types';
+import { collectSignals, saveQuestionnaire } from './signals';
+import { sendSignalsToBackend } from './inference/api';
+import type { BharatSignals, EngineResponse, QuestionnaireAnswers } from './signals/types';
 
-// Re-export all types for consumers
-export type { BharatSignals } from './signals/types';
-export type { EngineResponse, Persona, Suggestion, Journey } from './inference/api';
+// Import fingerprint module
+import {
+  createFingerprint,
+  getFingerprintId,
+  resetFingerprint,
+  getTransparencyReport,
+  trackSessionStart,
+  trackSessionEnd
+} from './fingerprint';
+import type { BharatFingerprint, DerivedInsights } from './fingerprint';
+
+// Re-export all types
+export type { 
+  BharatSignals, 
+  DeviceSignals,
+  NetworkSignals,
+  BatterySignals,
+  ContextSignals,
+  EnvironmentSignals,
+  AppSignals,
+  LocationSignals,
+  ActivitySignals,
+  SocialSignals,
+  QuestionnaireAnswers,
+  EngineResponse, 
+  Persona, 
+  Suggestion,
+  SpecificContent,
+  Journey,
+  FeedbackSignals,
+  FeedbackItem,
+  // User Intelligence types
+  EventType,
+  UserEvent,
+  BehavioralPattern,
+  UserPreferences,
+  UserIntelligence,
+  IntelligenceSummary,
+  TrackEventRequest,
+  TrackEventResponse
+} from './signals/types';
 
 /**
  * The main entry point for the Bharat Context-Adaptive Engine.
  * 
- * This function orchestrates the complete flow:
- * 1. Collects device signals (network, battery, device, context)
- * 2. Sends signals to the backend inference engine
- * 3. Returns personalized recommendations + LLM-generated content
+ * Collects all available signals and sends them to the backend
+ * for hyper-personalized recommendations.
  * 
- * @param journeyDay - Optional: Which day of the user's journey (0-30+)
- *                     Use this to simulate Day 30 experiences!
+ * @param journeyDay - Which day of the user's journey (0-30+)
  * @returns Promise containing signals and inference results
- * 
- * @example
- * // Day 0 - New user
- * const { signals, inference } = await initBharatEngine(0);
- * 
- * @example
- * // Day 30 - Returning partner
- * const { signals, inference } = await initBharatEngine(30);
  */
 export const initBharatEngine = async (
   journeyDay: number = 0
 ): Promise<{ signals: BharatSignals; inference: EngineResponse }> => {
-  console.log(`Initializing Bharat Context-Adaptive Engine (Day ${journeyDay})...`);
+  console.log(`🚀 Initializing Bharat Context-Adaptive Engine (Day ${journeyDay})...`);
   
-  // 1. Collect Signals (Local) - This is instant and works offline
+  // 1. Collect ALL signals (Tier 1 + Tier 2 where permitted)
   const signals = await collectSignals();
   
-  // 2. Send to Backend (Remote Inference with LLM) - This is where the magic happens
+  // 2. Send to Backend for LLM-powered inference
   const inference = await sendSignalsToBackend(signals, journeyDay);
   
-  console.log(`Engine initialized. Mode: ${inference.recommended_mode}, Persona: ${inference.persona.name}`);
+  console.log(`✅ Engine initialized. Mode: ${inference.recommended_mode}, Persona: ${inference.persona.name}`);
+  console.log(`📊 Scenario: ${inference.matched_scenario} (${Math.round(inference.confidence * 100)}% confidence)`);
   
   return {
     signals,
@@ -46,8 +74,14 @@ export const initBharatEngine = async (
 };
 
 /**
+ * Save questionnaire answers to local storage
+ * and sync with backend on next engine call
+ */
+export { saveQuestionnaire };
+
+/**
  * Collect signals only (no backend call)
- * Useful for offline-first scenarios or when you want to inspect signals
+ * Useful for offline-first scenarios
  */
 export { collectSignals } from './signals';
 
@@ -56,3 +90,71 @@ export { collectSignals } from './signals';
  * Useful when you want to control when the API call happens
  */
 export { sendSignalsToBackend } from './inference/api';
+
+/**
+ * Event tracking - Tell the backend what users are doing
+ */
+export { trackEvent, trackEvents, sendFeedback, getUserIntelligence } from './inference/api';
+
+// ═══════════════════════════════════════════════════════════════
+// FINGERPRINT API
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * Create or retrieve device fingerprint
+ * The fingerprint is a privacy-respecting unique identifier
+ * that doesn't require login.
+ */
+export { createFingerprint, getFingerprintId, resetFingerprint, getTransparencyReport };
+
+/**
+ * Session tracking for behavioral fingerprinting
+ * Call trackSessionStart when app opens, trackSessionEnd when app closes
+ */
+export { trackSessionStart, trackSessionEnd };
+
+/**
+ * Fingerprint types
+ */
+export type { BharatFingerprint, DerivedInsights };
+
+// ═══════════════════════════════════════════════════════════════
+// PERMISSIONS
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * Request permissions for Tier 2 signals
+ */
+export const requestPermissions = async () => {
+  const permissions: { [key: string]: boolean } = {};
+  
+  // Location
+  try {
+    const Location = require('expo-location');
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    permissions.location = status === 'granted';
+  } catch {
+    permissions.location = false;
+  }
+  
+  // Contacts
+  try {
+    const Contacts = require('expo-contacts');
+    const { status } = await Contacts.requestPermissionsAsync();
+    permissions.contacts = status === 'granted';
+  } catch {
+    permissions.contacts = false;
+  }
+  
+  // Calendar
+  try {
+    const Calendar = require('expo-calendar');
+    const { status } = await Calendar.requestCalendarPermissionsAsync();
+    permissions.calendar = status === 'granted';
+  } catch {
+    permissions.calendar = false;
+  }
+  
+  console.log('📋 Permissions:', permissions);
+  return permissions;
+};
