@@ -1833,3 +1833,135 @@ def get_platform_stats():
         "feedback_stats": intelligence_store.get_feedback_stats(),
         "scenarios_available": len(SCENARIOS)
     }
+
+# ═══════════════════════════════════════════════════════════════
+# CHAT ENDPOINT - Ask Munim Ji! 💬
+# ═══════════════════════════════════════════════════════════════
+
+class ChatRequest(FlexibleModel):
+    """Request body for chat with Munim Ji"""
+    message: str
+    fingerprint_id: Optional[str] = Field(default=None, alias="fingerprintId")
+    # Optional context for better responses
+    context: Optional[ContextSignals] = None
+
+class ChatResponse(BaseModel):
+    """Response from Munim Ji chat"""
+    success: bool
+    response: str
+    suggestions: list[str] = []  # Quick follow-up suggestions
+    
+    model_config = ConfigDict(populate_by_name=True)
+
+@app.post("/v1/chat", response_model=ChatResponse)
+def chat_with_munim_ji(request: ChatRequest):
+    """
+    Chat with Munim Ji! 💬
+    
+    This endpoint allows users to ask questions and get personalized responses.
+    It uses OpenAI's GPT model to generate helpful, culturally-relevant answers.
+    
+    The assistant is designed to be:
+    - Warm and friendly (like a wise Indian elder)
+    - Helpful with recommendations
+    - Knowledgeable about Indian culture, festivals, and lifestyle
+    - Supportive of the user's journey
+    """
+    api_key = os.getenv("OPENAI_API_KEY")
+    
+    if not api_key:
+        # Fallback response when no API key is configured
+        return ChatResponse(
+            success=True,
+            response="🙏 Namaste! I'm Munim Ji, your digital companion. I'm currently in offline mode, but I'm here to help! Try swiping through the recommendation cards for personalized suggestions.",
+            suggestions=["Show me today's recommendations", "What can you help me with?"]
+        )
+    
+    try:
+        client = OpenAI(api_key=api_key)
+        
+        # Get user context if available
+        user_context = ""
+        if request.fingerprint_id:
+            user_intel = intelligence_store.get_intelligence_summary(request.fingerprint_id)
+            if user_intel:
+                user_context = f"""
+User Context:
+- Journey Day: {user_intel.get('journey_day', 0)}
+- Stage: {user_intel.get('stage', 'newcomer')}
+- Insights: {', '.join(user_intel.get('insights', []))}
+- Top Interests: {', '.join(user_intel.get('top_categories', []))}
+"""
+        
+        # Get time context
+        time_context = ""
+        if request.context:
+            time_context = f"""
+Current Time: {request.context.time_of_day}
+Weekend: {request.context.is_weekend}
+"""
+        
+        system_prompt = f"""You are Munim Ji (मुनीम जी), a wise and friendly Indian digital assistant. 
+Your name means "the accountant" or "keeper of records" - you keep track of what users love!
+
+Your personality:
+- Warm, respectful, and encouraging (like a wise Indian elder)
+- Mix Hindi phrases naturally (Namaste, Shubh, Arre wah!, etc.)
+- Knowledgeable about Indian culture, festivals, food, music, movies
+- Supportive of personal growth and daily routines
+- Keep responses concise (2-3 sentences max) but helpful
+
+{user_context}
+{time_context}
+
+Guidelines:
+- If asked about recommendations, suggest they check the swipeable cards
+- If asked about yourself, explain you're their personal digital companion from Bharat
+- For spiritual questions, be respectful and non-denominational
+- For entertainment questions, suggest popular Indian content
+- Always end with something encouraging or actionable
+"""
+        
+        response = client.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": request.message}
+            ],
+            temperature=0.7,
+            max_tokens=200
+        )
+        
+        ai_response = response.choices[0].message.content.strip()
+        
+        # Generate quick follow-up suggestions
+        suggestions = []
+        message_lower = request.message.lower()
+        
+        if any(word in message_lower for word in ["music", "song", "gaana"]):
+            suggestions = ["Play something devotional", "Bollywood hits", "Relaxing music"]
+        elif any(word in message_lower for word in ["movie", "film", "watch"]):
+            suggestions = ["Latest releases", "Family movies", "Classic Bollywood"]
+        elif any(word in message_lower for word in ["food", "recipe", "cook", "khana"]):
+            suggestions = ["Quick recipes", "Festival specials", "Healthy options"]
+        elif any(word in message_lower for word in ["help", "what can you"]):
+            suggestions = ["Show recommendations", "Change settings", "Learn about me"]
+        else:
+            suggestions = ["Show me more", "Today's picks", "Surprise me!"]
+        
+        # Log the chat
+        print(f"💬 Chat: '{request.message[:50]}...' -> '{ai_response[:50]}...'")
+        
+        return ChatResponse(
+            success=True,
+            response=ai_response,
+            suggestions=suggestions
+        )
+        
+    except Exception as e:
+        print(f"Chat Error: {e}")
+        return ChatResponse(
+            success=False,
+            response="🙏 Sorry, I'm having trouble connecting right now. Please try again in a moment!",
+            suggestions=["Try again", "Browse recommendations"]
+        )

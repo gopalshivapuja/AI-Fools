@@ -414,6 +414,37 @@ data class FeedbackResponse(
 )
 
 // ═══════════════════════════════════════════════════════════════
+// CHAT MODELS - Ask Munim Ji! 💬
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * Request to chat with Munim Ji.
+ * 
+ * 🎓 Learning Tip: This is a simple request - just a message!
+ * The fingerprint helps personalize the response based on user history.
+ */
+data class ChatRequest(
+    val message: String,
+    
+    @SerializedName("fingerprintId")
+    val fingerprintId: String? = null,
+    
+    // Optional context for better responses
+    val context: ContextSignals? = null
+)
+
+/**
+ * Response from Munim Ji chat.
+ * 
+ * Includes the AI response plus quick follow-up suggestions!
+ */
+data class ChatResponse(
+    val success: Boolean,
+    val response: String,
+    val suggestions: List<String> = emptyList()
+)
+
+// ═══════════════════════════════════════════════════════════════
 // HELPER FUNCTIONS - For context signals
 // ═══════════════════════════════════════════════════════════════
 

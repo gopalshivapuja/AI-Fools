@@ -2,11 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Internet for deep links and future API calls -->
+    <!-- Internet for deep links and API calls -->
     <uses-permission android:name="android.permission.INTERNET" />
     
     <!-- Vibration for haptic feedback on swipe -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    
+    <!-- Network state for signal collection (auto-granted, not dangerous) -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
+    <!-- Battery stats for power-aware recommendations (auto-granted) -->
+    <uses-permission android:name="android.permission.BATTERY_STATS" 
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="true"

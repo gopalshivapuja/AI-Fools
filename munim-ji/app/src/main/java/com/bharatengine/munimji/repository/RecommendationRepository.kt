@@ -22,10 +22,31 @@ import kotlinx.coroutines.withContext
  * - Mock data
  * 
  * This makes testing easier and code more maintainable!
+ * 
+ * 📡 Now supports maximum signal collection!
+ * Call setSignals() to provide device/context signals before fetching.
  */
 class RecommendationRepository {
     
     private val api = ApiClient.api
+    
+    // Cached signals from SignalCollector - set this before calling getRecommendations!
+    private var cachedSignals: SignalPayload? = null
+    
+    /**
+     * Set the collected signals to be used in API calls.
+     * 
+     * 🎓 Learning Tip: We cache the signals so the repository doesn't
+     * need a Context reference. The ViewModel/UI collects signals 
+     * and passes them here before fetching recommendations.
+     * 
+     * @param signals The SignalPayload from SignalCollector
+     */
+    fun setSignals(signals: SignalPayload) {
+        cachedSignals = signals
+        println("📡 Signals cached: ${signals.device.brand} ${signals.device.modelName}, " +
+                "Network: ${signals.network.type}, Battery: ${(signals.battery.level * 100).toInt()}%")
+    }
     
     /**
      * Result wrapper for API calls.
@@ -58,15 +79,22 @@ class RecommendationRepository {
      * 
      * 🎓 Learning Tip: `withContext(Dispatchers.IO)` moves this work
      * to a background thread. Network calls should NEVER be on the main thread!
+     * 
+     * 📡 Now uses cached signals if available for maximum personalization!
      */
     suspend fun getRecommendations(journeyDay: Int = 0): Result<HomeData> {
         return withContext(Dispatchers.IO) {
             try {
-                // Build the signal payload with current context
-                val signals = SignalPayload(
+                // Use cached signals if available, otherwise create minimal payload
+                val signals = cachedSignals?.copy(
+                    journeyDay = journeyDay,
+                    useDynamicRecommendations = true
+                ) ?: SignalPayload(
                     journeyDay = journeyDay,
                     useDynamicRecommendations = true
                 )
+                
+                println("📤 Sending signals to backend: ${signals.device.brand} ${signals.device.modelName}")
                 
                 // Make the API call
                 val response = api.initializeEngine(signals)

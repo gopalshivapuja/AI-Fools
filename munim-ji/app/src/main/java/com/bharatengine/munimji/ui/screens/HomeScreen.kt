@@ -12,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.collectAsState
@@ -35,6 +36,8 @@ import com.bharatengine.munimji.viewmodel.HomeViewModel
  * 
  * When you swipe:
  * UI → ViewModel → Repository → Backend (feedback)
+ * 
+ * 📡 Now collects MAXIMUM device signals for personalization!
  */
 @Composable
 fun HomeScreen(
@@ -42,6 +45,15 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = viewModel()
 ) {
+    // Get context for signal collection
+    val context = LocalContext.current
+    
+    // Initialize signals on first composition
+    // 🎓 LaunchedEffect runs once when the key (Unit) doesn't change
+    LaunchedEffect(Unit) {
+        viewModel.initializeWithContext(context)
+    }
+    
     // Observe ViewModel state
     val uiState by viewModel.uiState.collectAsState()
     val currentRecommendations by viewModel.currentRecommendations.collectAsState()

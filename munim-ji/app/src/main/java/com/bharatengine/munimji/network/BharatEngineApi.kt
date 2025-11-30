@@ -57,5 +57,18 @@ interface BharatEngineApi {
      */
     @GET("/")
     suspend fun healthCheck(): Response<Map<String, Any>>
+    
+    /**
+     * Chat with Munim Ji! 💬
+     * 
+     * Send a message and get a personalized response from the AI assistant.
+     * 
+     * @param request The chat request with the user's message
+     * @return ChatResponse with AI response and suggestions
+     */
+    @POST("v1/chat")
+    suspend fun chat(
+        @Body request: ChatRequest
+    ): Response<ChatResponse>
 }
 
