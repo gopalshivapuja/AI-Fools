@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -64,7 +64,7 @@ fun SettingsScreen(
             navigationIcon = {
                 IconButton(onClick = onNavigateBack) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        imageVector = Icons.Filled.ArrowBack,
                         contentDescription = "Go back"
                     )
                 }
@@ -75,7 +75,7 @@ fun SettingsScreen(
             )
         )
         
-        HorizontalDivider(color = MaterialTheme.colorScheme.outline)
+        Divider(color = MaterialTheme.colorScheme.outline)
         
         // ═══════════════════════════════════════════════════════════════
         // SETTINGS LIST
@@ -125,7 +125,7 @@ fun SettingsScreen(
                 )
             }
             
-            HorizontalDivider(
+            Divider(
                 modifier = Modifier.padding(start = 56.dp),
                 color = MaterialTheme.colorScheme.outline
             )

@@ -3,7 +3,7 @@ package com.bharatengine.munimji.ui.components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -55,7 +55,7 @@ fun SettingsItem(
             
             // Arrow
             Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                imageVector = Icons.Filled.KeyboardArrowRight,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -63,7 +63,7 @@ fun SettingsItem(
         
         // Divider (optional)
         if (showDivider) {
-            HorizontalDivider(
+            Divider(
                 modifier = Modifier.padding(start = 56.dp),
                 color = MaterialTheme.colorScheme.outline
             )

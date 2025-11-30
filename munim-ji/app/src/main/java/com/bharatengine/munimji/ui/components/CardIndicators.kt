@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.MaterialTheme
 import com.bharatengine.munimji.ui.theme.PulseMuted
 import com.bharatengine.munimji.ui.theme.PulseSaffron
 

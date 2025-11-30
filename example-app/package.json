@@ -1,0 +1,41 @@
+{
+  "name": "example-app",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@bharat-engine/sdk": "file:../sdk",
+    "axios": "^1.6.0",
+    "expo": "~54.0.25",
+    "expo-application": "~7.0.7",
+    "expo-asset": "~12.0.10",
+    "expo-av": "~16.0.7",
+    "expo-battery": "~10.0.7",
+    "expo-brightness": "~14.0.7",
+    "expo-calendar": "~15.0.7",
+    "expo-cellular": "~8.0.7",
+    "expo-constants": "~18.0.10",
+    "expo-contacts": "~15.0.10",
+    "expo-device": "~8.0.9",
+    "expo-file-system": "~19.0.19",
+    "expo-font": "~14.0.9",
+    "expo-localization": "~17.0.7",
+    "expo-location": "~19.0.7",
+    "expo-network": "~8.0.7",
+    "expo-secure-store": "~15.0.7",
+    "expo-sensors": "~15.0.7",
+    "expo-status-bar": "~3.0.8",
+    "react": "19.1.0",
+    "react-native": "0.81.5"
+  },
+  "devDependencies": {
+    "@types/react": "~19.1.0",
+    "typescript": "~5.9.2"
+  },
+  "private": true
+}
